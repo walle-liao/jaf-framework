@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jaf-framework-distribution-lock</artifactId>
+	<packaging>jar</packaging>
+	<name>jaf-framework-distribution-lock</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.jaf.framework</groupId>
+		<artifactId>jaf-framework-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../jaf-framework-parent/pom.xml</relativePath>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<redisson_version>2.2.5</redisson_version>
+		<springframework_version>3.1.0.RELEASE</springframework_version>
+		<slf4j_version>1.6.2</slf4j_version>
+		<logback_version>1.0.6</logback_version>
+		<aspectj_version>1.6.11</aspectj_version>
+		<cglib_version>3.2.0</cglib_version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>${redisson_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${springframework_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+</project>
