@@ -145,7 +145,7 @@ class ExcelImportUtils {
 					
 					// 处理列的值，如果指定了列的值处理器
 					ColumnValueHandler valueHandler = datasProvider.getValueHandler(field.getName());
-					Object newVal = valueHandler.processImportValue(cellVal);
+					Object newVal = valueHandler.processImportValue(cellVal.trim());
 					ReflectionUtils.setField(field, entity, newVal);
 					emptyRow = false;
 				}
