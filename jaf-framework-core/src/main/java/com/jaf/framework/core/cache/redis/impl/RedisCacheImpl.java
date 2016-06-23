@@ -20,7 +20,7 @@ public class RedisCacheImpl implements RedisCache {
 	
 	private RedisTemplate<String, Object> redisTemplate;
 	
-	private final EntityCacheKeyGenerator comoonEntityKeyGenerator = new EntityCacheKeyGenerator();
+	private final EntityCacheKeyGenerator commonEntityKeyGenerator = new EntityCacheKeyGenerator();
 	
 	@Override
 	public boolean set(String key, int exp, Object value) {
@@ -97,21 +97,21 @@ public class RedisCacheImpl implements RedisCache {
 	
 	@Override
 	public boolean setEntity(BaseEntity<?> entity, int exp) {
-		String key = comoonEntityKeyGenerator.generateKey(entity);
+		String key = commonEntityKeyGenerator.generateKey(entity);
 		return set(key, exp, entity);
 	}
 
 
 	@Override
 	public <T extends BaseEntity<?>> T getEntity(String id, Class<T> clazz) {
-		String key = comoonEntityKeyGenerator.getKeyByClass(clazz, id);
+		String key = commonEntityKeyGenerator.getKeyByClass(clazz, id);
 		return get(key, clazz);
 	}
 	
 	
 	@Override
 	public BaseEntity<?> updateEntity(BaseEntity<?> newEntity) {
-		String key = comoonEntityKeyGenerator.generateKey(newEntity);
+		String key = commonEntityKeyGenerator.generateKey(newEntity);
 		if(redisTemplate.hasKey(key)) {
 			BaseEntity<?> oldEntity = (BaseEntity<?>) redisTemplate.opsForValue().getAndSet(key, newEntity);
 			return oldEntity;
@@ -122,14 +122,14 @@ public class RedisCacheImpl implements RedisCache {
 
 	@Override
 	public <T extends BaseEntity<?>> boolean deleteEntity(String id, Class<T> clazz) {
-		String key = comoonEntityKeyGenerator.getKeyByClass(clazz, id);
+		String key = commonEntityKeyGenerator.getKeyByClass(clazz, id);
 		return delete(key);
 	}
 	
 	
 	@Override
 	public boolean deleteEntity(BaseEntity<?> entity) {
-		String key = comoonEntityKeyGenerator.generateKey(entity);
+		String key = commonEntityKeyGenerator.generateKey(entity);
 		return delete(key);
 	}
 
