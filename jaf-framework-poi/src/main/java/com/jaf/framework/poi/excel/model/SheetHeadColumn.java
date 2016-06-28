@@ -1,7 +1,7 @@
-package com.jaf.framework.poi.excel;
+package com.jaf.framework.poi.excel.model;
 
 /**
- * excel 表头中的每一列
+ * excel Sheet页表头中的每一列
  * 
  * @author liaozhicheng.cn@163.com
  * @date 2015年10月1日

@@ -25,8 +25,6 @@ public @interface ColumnHead {
 	 */
 	String title();
 	
-	String dataKey() default "";
-	
 	/**
 	 * 定义execl表头的列宽
 	 * @return

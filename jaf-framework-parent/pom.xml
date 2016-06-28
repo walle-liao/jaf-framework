@@ -120,8 +120,15 @@
 				<version>1.5.2.RELEASE</version>
 				<optional>true</optional>
 			</dependency>
-
-
+			
+			<!-- ehcache -->
+			<dependency>
+				<groupId>org.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>3.0.2</version>
+				<optional>true</optional>
+			</dependency>
+			
 			<!-- mybatis dependency -->
 			<dependency>
 				<groupId>org.mybatis</groupId>

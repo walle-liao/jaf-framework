@@ -16,9 +16,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.ReflectionUtils;
 
 import com.jaf.framework.poi.excel.ColumnValueHandler;
-import com.jaf.framework.poi.excel.ExcelSheet;
-import com.jaf.framework.poi.excel.SheetDataProvider;
-import com.jaf.framework.poi.excel.SheetHead;
+import com.jaf.framework.poi.excel.model.ExcelSheet;
+import com.jaf.framework.poi.excel.model.SheetHead;
+import com.jaf.framework.poi.excel.support.SheetDataProvider;
 import com.jaf.framework.util.Assert;
 import com.jaf.framework.util.enums.FileType;
 import com.jaf.framework.util.io.IoUtils;

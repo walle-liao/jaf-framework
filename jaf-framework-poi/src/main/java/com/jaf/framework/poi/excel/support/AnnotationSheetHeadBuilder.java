@@ -1,8 +1,12 @@
-package com.jaf.framework.poi.excel;
+package com.jaf.framework.poi.excel.support;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.jaf.framework.poi.excel.ColumnHead;
+import com.jaf.framework.poi.excel.SheetHeadBuilder;
+import com.jaf.framework.poi.excel.model.SheetHead;
+import com.jaf.framework.poi.excel.model.SheetHeadColumn;
 import com.jaf.framework.util.ReflectUtils;
 
 /**

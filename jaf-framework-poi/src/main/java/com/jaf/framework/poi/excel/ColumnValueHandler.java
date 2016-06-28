@@ -9,9 +9,18 @@ package com.jaf.framework.poi.excel;
  */
 public interface ColumnValueHandler {
 	
-	
+	/**
+	 * 导入值处理
+	 * @param value
+	 * @return
+	 */
 	Object processImportValue(String value);
 	
+	/**
+	 * 导出值处理
+	 * @param value
+	 * @return
+	 */
 	String processExportValue(Object value);
 	
 }

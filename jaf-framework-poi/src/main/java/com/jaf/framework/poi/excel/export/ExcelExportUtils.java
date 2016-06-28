@@ -15,10 +15,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.jaf.framework.poi.excel.ColumnValueHandler;
-import com.jaf.framework.poi.excel.ExcelSheet;
-import com.jaf.framework.poi.excel.SheetDataProvider;
-import com.jaf.framework.poi.excel.SheetHead;
-import com.jaf.framework.poi.excel.SheetHeadColumn;
+import com.jaf.framework.poi.excel.model.ExcelSheet;
+import com.jaf.framework.poi.excel.model.SheetHead;
+import com.jaf.framework.poi.excel.model.SheetHeadColumn;
+import com.jaf.framework.poi.excel.support.SheetDataProvider;
 import com.jaf.framework.util.Assert;
 import com.jaf.framework.util.CollectionUtils;
 import com.jaf.framework.util.enums.FileType;

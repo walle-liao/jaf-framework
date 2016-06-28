@@ -3,8 +3,8 @@ package com.jaf.framework.poi.excel.export;
 import java.io.OutputStream;
 import java.util.List;
 
-import com.jaf.framework.poi.excel.ExcelDocument;
-import com.jaf.framework.poi.excel.SheetDataProvider;
+import com.jaf.framework.poi.excel.model.ExcelDocument;
+import com.jaf.framework.poi.excel.support.SheetDataProvider;
 
 /**
  * TODO

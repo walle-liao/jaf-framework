@@ -92,6 +92,12 @@
 			<artifactId>spring-data-redis</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 		<!-- mybatis dependency -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

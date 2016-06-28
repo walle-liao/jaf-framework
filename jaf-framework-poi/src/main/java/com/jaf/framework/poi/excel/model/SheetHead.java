@@ -1,4 +1,4 @@
-package com.jaf.framework.poi.excel;
+package com.jaf.framework.poi.excel.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Map;
 import com.jaf.framework.util.ArrayUtils;
 
 /**
- * 封装一个excel导入模板的表头
+ * Sheet页对应的表头（导入导出都需要有对应的表头）
  * 
  * @author liaozhicheng.cn@163.com
  * @date 2015年10月1日

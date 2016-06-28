@@ -1,10 +1,14 @@
-package com.jaf.framework.poi.excel;
+package com.jaf.framework.poi.excel.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jaf.framework.poi.excel.SheetHeadBuilder;
+import com.jaf.framework.poi.excel.support.AnnotationSheetHeadBuilder;
+import com.jaf.framework.poi.excel.support.SheetDataProvider;
+
 /**
- * TODO
+ * Excel文档里面的Sheet页
  * 
  * @author liaozhicheng.cn@163.com
  * @date 2016年2月7日

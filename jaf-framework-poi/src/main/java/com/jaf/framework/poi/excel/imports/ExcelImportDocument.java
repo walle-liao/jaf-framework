@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jaf.framework.poi.excel.ExcelDocument;
-import com.jaf.framework.poi.excel.ExcelSheet;
+import com.jaf.framework.poi.excel.model.ExcelDocument;
+import com.jaf.framework.poi.excel.model.ExcelSheet;
 import com.jaf.framework.util.Assert;
 
 /**

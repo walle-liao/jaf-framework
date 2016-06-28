@@ -1,7 +1,11 @@
-package com.jaf.framework.poi.excel;
+package com.jaf.framework.poi.excel.support;
 
 import java.lang.reflect.Field;
 import java.util.List;
+
+import com.jaf.framework.poi.excel.SheetHeadBuilder;
+import com.jaf.framework.poi.excel.model.SheetHead;
+import com.jaf.framework.poi.excel.model.SheetHeadColumn;
 
 /**
  * TODO
