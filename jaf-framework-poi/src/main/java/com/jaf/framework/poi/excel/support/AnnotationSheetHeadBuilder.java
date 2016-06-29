@@ -65,7 +65,8 @@ public class AnnotationSheetHeadBuilder implements SheetHeadBuilder {
 				Field[] fields = ReflectUtils.getSpecified(targetClazz, ColumnHead.class);
 				for (Field field : fields) {
 					ColumnHead an = field.getAnnotation(ColumnHead.class);
-					SheetHeadColumn heandColumn = new SheetHeadColumn(an.title(), field.getName(), an.width());
+					SheetHeadColumn heandColumn = new SheetHeadColumn(
+							an.title(), field.getName(), an.width() * SheetHeadColumn.DEFAULT_MULTIPLE);
 					sheetHead.appendColumn(heandColumn);
 				}
 				sheetHead.setFields(fields);

@@ -7,7 +7,7 @@ import java.util.List;
 import com.jaf.framework.poi.excel.DataProvider;
 import com.jaf.framework.poi.excel.SheetHeadBuilder;
 import com.jaf.framework.poi.excel.support.AnnotationSheetHeadBuilder;
-import com.jaf.framework.poi.excel.support.EmptyDataProvider;
+import com.jaf.framework.poi.excel.support.CommonSheetDataProvider;
 
 /**
  * Excel文档里面的Sheet页
@@ -45,13 +45,18 @@ public class ExcelSheet {
 	}
 	
 	public static ExcelSheet createWithAnnotation(Class<?> clazz, DataProvider<?> datasProvider, String sheetName) {
-		datasProvider = datasProvider == null ? EmptyDataProvider.singleInstance() : datasProvider;
+		datasProvider = datasProvider == null ? CommonSheetDataProvider.newEmptyDataProvider(clazz) : datasProvider;
 		ExcelSheet sheet = new ExcelSheet(new AnnotationSheetHeadBuilder(clazz), datasProvider, sheetName);
 		return sheet;
 	}
 	
-	public void fillDatas(List<?> datas) {
-		// TODO 
+	public static ExcelSheet createSheet(SheetHeadBuilder builder, DataProvider<?> datasProvider, String sheetName) {
+		ExcelSheet sheet = new ExcelSheet(builder, datasProvider, sheetName);
+		return sheet;
+	}
+	
+	public void fillDatas(Collection<?> datas) {
+		datasProvider.fillDatas(datas);
 	}
 	
 	public List<String> getErrorMsgHolder() {

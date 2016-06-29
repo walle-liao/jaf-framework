@@ -29,7 +29,7 @@ public final class SheetHeadColumn {
 	public SheetHeadColumn(String title, String fieldName, int width) {
 		this.title = title;
 		this.fieldName = fieldName;
-		this.width = width * DEFAULT_MULTIPLE;
+		this.width = width;
 	}
 	
 	public String getTitle() {

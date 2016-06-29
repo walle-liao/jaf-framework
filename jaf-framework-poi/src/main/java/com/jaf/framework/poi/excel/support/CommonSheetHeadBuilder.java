@@ -48,6 +48,7 @@ public class CommonSheetHeadBuilder implements SheetHeadBuilder {
 				e.printStackTrace();
 			}
 		}
+		head.setFields(fields);
 		return head;
 	}
 
