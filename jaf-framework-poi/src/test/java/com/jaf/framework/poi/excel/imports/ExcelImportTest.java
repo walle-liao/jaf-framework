@@ -1,7 +1,7 @@
 package com.jaf.framework.poi.excel.imports;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -24,13 +24,11 @@ public class ExcelImportTest {
 		excel.createSheetWithAnnotation(QuestionImportDTO.class);
 		excel.createSheetWithAnnotation(QuestionImportDTO.class);
 		if(excel.doImport()) {
-			List<QuestionImportDTO> datas = excel.getDefaultDatas();
+			Collection<QuestionImportDTO> datas = excel.getDefaultDatas(QuestionImportDTO.class);
 			System.out.println(datas.size());
-			System.out.println(datas.get(5).getAnswerItemC());
 			
-			List<QuestionImportDTO> sheet2Datas = excel.getSheetDatas(1);
+			Collection<QuestionImportDTO> sheet2Datas = excel.getSheetDatas(1, QuestionImportDTO.class);
 			System.out.println(sheet2Datas.size());
-			System.out.println(sheet2Datas.get(5).getAnswerItemA());
 		}
 	}
 	

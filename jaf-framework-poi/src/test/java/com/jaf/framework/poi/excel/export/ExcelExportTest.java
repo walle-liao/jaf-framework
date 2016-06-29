@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import com.jaf.framework.poi.excel.export.dto.UserExportDTO;
 import com.jaf.framework.poi.excel.support.DefaultColumnValueHandler;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
 
 /**
  * TODO
@@ -33,7 +32,7 @@ public class ExcelExportTest {
 		UserExportDTO u2 = new UserExportDTO("历史", "005511", 15);
 		datas.add(u1);
 		datas.add(u2);
-		SheetDataProvider dataProvider = new SheetDataProvider(datas);
+		ExportSheetDataProvider<UserExportDTO> dataProvider = new ExportSheetDataProvider<UserExportDTO>(datas);
 		dataProvider.registValueHandler("", new DefaultColumnValueHandler() {
 			@Override
 			public String processExportValue(Object value) {

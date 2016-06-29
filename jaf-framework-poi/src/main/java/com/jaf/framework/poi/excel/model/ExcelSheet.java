@@ -1,11 +1,13 @@
 package com.jaf.framework.poi.excel.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import com.jaf.framework.poi.excel.DataProvider;
 import com.jaf.framework.poi.excel.SheetHeadBuilder;
 import com.jaf.framework.poi.excel.support.AnnotationSheetHeadBuilder;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
+import com.jaf.framework.poi.excel.support.EmptyDataProvider;
 
 /**
  * Excel文档里面的Sheet页
@@ -29,9 +31,9 @@ public class ExcelSheet {
 	private final List<String> errorMsgHolder = new ArrayList<String>();
 	
 	// sheet 页数据提供者
-	private final SheetDataProvider datasProvider;
+	private final DataProvider<?> datasProvider;
 	
-	private ExcelSheet(SheetHeadBuilder builder, SheetDataProvider datasProvider, String sheetName) {
+	private ExcelSheet(SheetHeadBuilder builder, DataProvider<?> datasProvider, String sheetName) {
 		this.clazz = builder.getTargetClazz();
 		this.head = builder.build();
 		this.name = sheetName;
@@ -42,15 +44,14 @@ public class ExcelSheet {
 		return createWithAnnotation(clazz, null, sheetName);
 	}
 	
-	public static ExcelSheet createWithAnnotation(Class<?> clazz, SheetDataProvider datasProvider, String sheetName) {
-		if(datasProvider == null)
-			datasProvider = SheetDataProvider.newEmptyDatasProvider();
+	public static ExcelSheet createWithAnnotation(Class<?> clazz, DataProvider<?> datasProvider, String sheetName) {
+		datasProvider = datasProvider == null ? EmptyDataProvider.singleInstance() : datasProvider;
 		ExcelSheet sheet = new ExcelSheet(new AnnotationSheetHeadBuilder(clazz), datasProvider, sheetName);
 		return sheet;
 	}
 	
 	public void fillDatas(List<?> datas) {
-		this.datasProvider.setDatas(datas);
+		// TODO 
 	}
 	
 	public List<String> getErrorMsgHolder() {
@@ -69,12 +70,12 @@ public class ExcelSheet {
 		return head;
 	}
 
-	public List<?> getDatas() {
+	public Collection<?> getDatas() {
 		return datasProvider.getDatas();
 	}
 
-	public SheetDataProvider getDatasProvider() {
+	public DataProvider<?> getDatasProvider() {
 		return datasProvider;
 	}
-	
+
 }

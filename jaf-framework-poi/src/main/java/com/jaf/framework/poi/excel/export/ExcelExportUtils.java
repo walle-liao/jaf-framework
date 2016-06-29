@@ -3,6 +3,8 @@ package com.jaf.framework.poi.excel.export;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +15,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.ReflectionUtils;
 
 import com.jaf.framework.poi.excel.ColumnValueHandler;
+import com.jaf.framework.poi.excel.DataProvider;
 import com.jaf.framework.poi.excel.model.ExcelSheet;
 import com.jaf.framework.poi.excel.model.SheetHead;
 import com.jaf.framework.poi.excel.model.SheetHeadColumn;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
 import com.jaf.framework.util.Assert;
 import com.jaf.framework.util.CollectionUtils;
 import com.jaf.framework.util.enums.FileType;
@@ -50,6 +53,7 @@ class ExcelExportUtils {
 	
 	private static boolean doExport97(OutputStream os, ExcelExportDocument excelDocument) {
 		HSSFWorkbook hssfWorkbook = null;
+		
 		try {
 			hssfWorkbook = new HSSFWorkbook();
 			writeSheets(hssfWorkbook, excelDocument);
@@ -126,17 +130,19 @@ class ExcelExportUtils {
 	}
 	
 	private static void buildSheetBody(ExcelSheet excelSheet, Sheet sheet) throws IllegalArgumentException, IllegalAccessException {
-		List<?> datas = excelSheet.getDatas();
+		Collection<?> datas = excelSheet.getDatas();
 		if(CollectionUtils.isEmpty(datas))
 			return ;
 		
 		final SheetHead head = excelSheet.getHead();
-		final SheetDataProvider datasProvider = excelSheet.getDatasProvider();
+		final DataProvider<?> datasProvider = excelSheet.getDatasProvider();
 		final Map<String, SheetHeadColumn> headColumnMap = head.getHeadColumnMap();
 		final Field[] fields = head.getFields();
-		for(int i = 0; i < datas.size(); i++) {
-			Row row = sheet.createRow(i + 1);  // 从第二行开始插入数据
-			Object data = datas.get(i);
+		Iterator<?> iterator = datas.iterator();
+		int rowNum = 1;  // 从第二行开始插入数据
+		while (iterator.hasNext()) {
+			Object data = iterator.next();
+			Row row = sheet.createRow(rowNum++);  
 			for(int j = 0; j < fields.length; j++) {
 				Field field = fields[j];
 				String fieldName = field.getName();
@@ -147,7 +153,7 @@ class ExcelExportUtils {
 					ColumnValueHandler valueHandler = datasProvider.getValueHandler(fieldName);
 					cellValue = valueHandler.processExportValue(data);
 				} else {
-					field.setAccessible(true);
+					ReflectionUtils.makeAccessible(field);
 					Object fieldValue = field.get(data);
 					if(fieldValue != null)
 						cellValue = fieldValue.toString();

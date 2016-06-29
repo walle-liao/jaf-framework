@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,22 +71,32 @@ public class ExcelImportDocument extends ExcelDocument {
 		return errorMsgHolder;
 	}
 	
-	public Map<Integer, List<?>> getAllSheetDatas() {
-		Map<Integer, List<?>> allSheetDatas = new HashMap<Integer, List<?>>();
+	public Map<Integer, Collection<?>> getAllSheetDatas() {
+		Map<Integer, Collection<?>> allSheetDatas = new HashMap<Integer, Collection<?>>();
 		for(int i = 0; i < sheets.size(); i++) {
 			allSheetDatas.put(Integer.valueOf(i), sheets.get(i).getDatas());
 		}
 		return allSheetDatas;
 	}
 	
+	/**
+	 * 默认获取第一个 sheet 页数据
+	 * @param clazz
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public <E> List<E> getSheetDatas(int sheetIndex) {
-		return (List<E>) sheets.get(sheetIndex).getDatas();
-	}
+	public <T> Collection<T> getDefaultDatas(Class<T> clazz) {
+		return (Collection<T>) sheets.get(0).getDatas();
+	}	
 	
+	/**
+	 * 获取指定 sheet 页数据
+	 * @param sheetIndex sheet 页下标
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public <E> List<E> getDefaultDatas() {
-		return (List<E>) sheets.get(0).getDatas();
+	public <T> Collection<T> getSheetDatas(int sheetIndex, Class<T> clazz) {
+		return (Collection<T>) sheets.get(sheetIndex).getDatas();
 	}
 	
 }

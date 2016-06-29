@@ -16,9 +16,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.ReflectionUtils;
 
 import com.jaf.framework.poi.excel.ColumnValueHandler;
+import com.jaf.framework.poi.excel.DataProvider;
 import com.jaf.framework.poi.excel.model.ExcelSheet;
 import com.jaf.framework.poi.excel.model.SheetHead;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
 import com.jaf.framework.util.Assert;
 import com.jaf.framework.util.enums.FileType;
 import com.jaf.framework.util.io.IoUtils;
@@ -120,7 +120,7 @@ class ExcelImportUtils {
 		
 		// 逐行逐列解析 excel
 		final Field[] fields = sheetHead.getFields();
-		final SheetDataProvider datasProvider = excelSheet.getDatasProvider();
+		final DataProvider<?> datasProvider = excelSheet.getDatasProvider();
 		final int lastRowNum = sheet.getLastRowNum();
 		final int lastColumnNum = fields.length;
 		

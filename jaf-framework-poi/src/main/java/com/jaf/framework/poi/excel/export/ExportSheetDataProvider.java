@@ -1,12 +1,13 @@
-package com.jaf.framework.poi.excel.support;
+package com.jaf.framework.poi.excel.export;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.jaf.framework.poi.excel.ColumnValueHandler;
+import com.jaf.framework.poi.excel.DataProvider;
 import com.jaf.framework.poi.excel.model.ExcelSheet;
+import com.jaf.framework.poi.excel.support.DefaultColumnValueHandler;
 import com.jaf.framework.util.Assert;
 
 /**
@@ -17,28 +18,36 @@ import com.jaf.framework.util.Assert;
  * @since 1.0
  * @see ExcelSheet
  */
-public class SheetDataProvider {
+public class ExportSheetDataProvider<T> implements DataProvider<T> {
 	
 	// 对应 sheet 页数据
-	private List<?> datas;
+	private final List<T> datas;
 	
 	// 对应的数据转换器 { key: fieldName, value: valueHandler }
 	private final Map<String, ColumnValueHandler> valueHandlerMap = new HashMap<String, ColumnValueHandler>();
 	
-	@SuppressWarnings("rawtypes")
-	public static SheetDataProvider newEmptyDatasProvider() {
-		List<?> emptyDatas = new ArrayList();
-		return new SheetDataProvider(emptyDatas);
-	}
-	
-	public SheetDataProvider(List<?> datas) {
+	public ExportSheetDataProvider(List<T> datas) {
 		this.datas = datas;
 	}
 	
+	public ExportSheetDataProvider<T> registValueHandler(String key, ColumnValueHandler valueHandler) {
+		Assert.hasText(key);
+		Assert.notNull(valueHandler);
+		valueHandlerMap.put(key, valueHandler);
+		return this;
+	}
+	
+	@Override
+	public List<T> getDatas() {
+		return datas;
+	}
+	
+	@Override
 	public boolean existsValueHandler(String key) {
 		return valueHandlerMap.containsKey(key);
 	}
 	
+	@Override
 	public ColumnValueHandler getValueHandler(String key) {
 		if (existsValueHandler(key)) {
 			return valueHandlerMap.get(key);
@@ -46,21 +55,6 @@ public class SheetDataProvider {
 		return DefaultColumnValueHandler.getInstance();
 	}
 	
-	public SheetDataProvider registValueHandler(String key, ColumnValueHandler valueHandler) {
-		Assert.hasText(key);
-		Assert.notNull(valueHandler);
-		valueHandlerMap.put(key, valueHandler);
-		return this;
-	}
-	
-	public List<?> getDatas() {
-		return datas;
-	}
-	
-	public void setDatas(List<?> datas) {
-		this.datas = datas;
-	}
-
 	public Map<String, ColumnValueHandler> getValueHandlerMap() {
 		return valueHandlerMap;
 	}

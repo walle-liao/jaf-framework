@@ -4,7 +4,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 import com.jaf.framework.poi.excel.model.ExcelDocument;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
 
 /**
  * TODO
@@ -19,13 +18,13 @@ public class ExcelExportDocument extends ExcelDocument {
 		super(fileName);
 	}
 
-	public <E> ExcelDocument createSheetWithAnnotation(Class<E> clazz, List<?> datas, String sheetName) {
-		createSheetWithAnnotation(clazz, new SheetDataProvider(datas), sheetName);
+	public <E> ExcelDocument createSheetWithAnnotation(Class<E> clazz, List<E> datas, String sheetName) {
+		createSheetWithAnnotation(clazz, new ExportSheetDataProvider<E>(datas), sheetName);
 		return this;
 	}
 	
-	public <E> ExcelDocument createSheetWithAnnotation(Class<E> clazz, List<?> datas) {
-		createSheetWithAnnotation(clazz, new SheetDataProvider(datas), getDefaultSheetName());
+	public <E> ExcelDocument createSheetWithAnnotation(Class<E> clazz, List<E> datas) {
+		createSheetWithAnnotation(clazz, new ExportSheetDataProvider<E>(datas), getDefaultSheetName());
 		return this;
 	}
 	

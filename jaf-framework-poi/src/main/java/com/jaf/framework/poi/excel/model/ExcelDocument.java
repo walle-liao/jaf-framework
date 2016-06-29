@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jaf.framework.poi.OfficeDocument;
-import com.jaf.framework.poi.excel.support.SheetDataProvider;
+import com.jaf.framework.poi.excel.DataProvider;
+import com.jaf.framework.poi.excel.support.EmptyDataProvider;
 
 /**
  * Excel文档
@@ -24,18 +25,18 @@ public class ExcelDocument extends OfficeDocument {
 	}
 	
 	public ExcelDocument createSheetWithAnnotation(Class<?> clazz, String sheetName) {
-		return createSheetWithAnnotation(clazz, SheetDataProvider.newEmptyDatasProvider(), sheetName);
+		return createSheetWithAnnotation(clazz, EmptyDataProvider.singleInstance(), sheetName);
 	}
 	
 	public ExcelDocument createSheetWithAnnotation(Class<?> clazz) {
-		return createSheetWithAnnotation(clazz, SheetDataProvider.newEmptyDatasProvider(), getDefaultSheetName());
+		return createSheetWithAnnotation(clazz, EmptyDataProvider.singleInstance(), getDefaultSheetName());
 	}
 	
-	public ExcelDocument createSheetWithAnnotation(Class<?> clazz, SheetDataProvider datasProvider) {
+	public ExcelDocument createSheetWithAnnotation(Class<?> clazz, DataProvider<?> datasProvider) {
 		return createSheetWithAnnotation(clazz, datasProvider, getDefaultSheetName());
 	}
 	
-	public ExcelDocument createSheetWithAnnotation(Class<?> clazz, SheetDataProvider datasProvider, String sheetName) {
+	public ExcelDocument createSheetWithAnnotation(Class<?> clazz, DataProvider<?> datasProvider, String sheetName) {
 		ExcelSheet sheet = ExcelSheet.createWithAnnotation(clazz, datasProvider, sheetName);
 		this.addSheet(sheet);
 		return this;
