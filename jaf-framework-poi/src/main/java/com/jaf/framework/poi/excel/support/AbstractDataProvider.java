@@ -1,38 +1,23 @@
 package com.jaf.framework.poi.excel.support;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import com.jaf.framework.poi.excel.ColumnValueHandler;
 import com.jaf.framework.poi.excel.DataProvider;
-import com.jaf.framework.poi.excel.model.ExcelSheet;
 import com.jaf.framework.util.Assert;
 
 /**
- * Sheet 页数据提供者
+ * TODO
  * 
  * @author liaozhicheng.cn@163.com
- * @date 2016年2月13日
+ * @date 2016年7月2日
  * @since 1.0
- * @see ExcelSheet
  */
-public class CommonSheetDataProvider<T> implements DataProvider<T> {
-	
-	// 对应 sheet 页数据
-	private Collection<T> datas;
-	
+public abstract class AbstractDataProvider<T> implements DataProvider<T> {
+
 	// 对应的数据转换器 { key: fieldName, value: valueHandler }
 	private final Map<String, ColumnValueHandler> valueHandlerMap = new HashMap<String, ColumnValueHandler>();
-	
-	private CommonSheetDataProvider() {
-	}
-	
-	public CommonSheetDataProvider(Collection<T> datas) {
-		this.datas = CollectionUtils.unmodifiableCollection(datas);
-	}
 	
 	@Override
 	public DataProvider<T> registValueHandler(String key, ColumnValueHandler valueHandler) {
@@ -42,21 +27,6 @@ public class CommonSheetDataProvider<T> implements DataProvider<T> {
 		return this;
 	}
 	
-	public static <T> DataProvider<T> newEmptyDataProvider(Class<T> clazz) {
-		return new CommonSheetDataProvider<T>();
-	}
-	
-	@Override
-	public Collection<T> getDatas() {
-		return datas;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void fillDatas(Collection<?> datas) {
-		this.datas = (Collection<T>) datas;
-	}
-
 	@Override
 	public boolean existsValueHandler(String key) {
 		return valueHandlerMap.containsKey(key);

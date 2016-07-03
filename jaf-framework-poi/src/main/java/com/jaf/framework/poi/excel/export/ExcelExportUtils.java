@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.ReflectionUtils;
 
@@ -49,6 +50,33 @@ class ExcelExportUtils {
 			default:
 				throw new IllegalArgumentException("error fileType : " + fileType);
 		}
+	}
+
+	public static boolean doLargeExport(OutputStream os, LargeExcelExportDocument excelDocument) {
+		Assert.notNull(excelDocument);
+		
+		SXSSFWorkbook sxssfWorkbook = null;
+		try {
+			sxssfWorkbook = new SXSSFWorkbook(excelDocument.getWindowSize());
+			
+			List<ExcelSheet> sheets = excelDocument.getSheets();
+			Assert.isTrue(sheets.size() > 0);
+			
+			for(int i = 0; i < sheets.size(); i++) {
+				ExcelSheet excelSheet = sheets.get(i);
+				Sheet sheet = sxssfWorkbook.createSheet(excelSheet.getName());
+				buildSheetHead(sxssfWorkbook, excelSheet, sheet);
+				buildLargeSheetBody(excelSheet, sheet);
+			}
+			sxssfWorkbook.write(os);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (sxssfWorkbook != null)
+				sxssfWorkbook.dispose();
+		}
+		return true;
 	}
 	
 	private static boolean doExport97(OutputStream os, ExcelExportDocument excelDocument) {
@@ -134,41 +162,69 @@ class ExcelExportUtils {
 		if(CollectionUtils.isEmpty(datas))
 			return ;
 		
-		final SheetHead head = excelSheet.getHead();
-		final DataProvider<?> datasProvider = excelSheet.getDatasProvider();
-		final Map<String, SheetHeadColumn> headColumnMap = head.getHeadColumnMap();
-		final Field[] fields = head.getFields();
 		Iterator<?> iterator = datas.iterator();
 		int rowNum = 1;  // 从第二行开始插入数据
 		while (iterator.hasNext()) {
 			Object data = iterator.next();
-			Row row = sheet.createRow(rowNum++);  
-			for(int j = 0; j < fields.length; j++) {
-				Field field = fields[j];
-				String fieldName = field.getName();
-				
-				// 处理单元格的值
-				String cellValue = "";
-				if(datasProvider.existsValueHandler(fieldName)) {
-					ColumnValueHandler valueHandler = datasProvider.getValueHandler(fieldName);
-					cellValue = valueHandler.processExportValue(data);
-				} else {
-					ReflectionUtils.makeAccessible(field);
-					Object fieldValue = field.get(data);
-					if(fieldValue != null)
-						cellValue = fieldValue.toString();
-				}
-				
-				// 创建单元格
-				Cell cell = row.createCell(j);
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				cell.setCellValue(cellValue);
-				
-				// 设置列宽，只要设置一次就可以了
-				SheetHeadColumn headColumn = headColumnMap.get(fieldName);
-				sheet.setColumnWidth(j, headColumn.getWidth());
-			}
+			buildRow(excelSheet, sheet, data, rowNum);
+			rowNum++;
 		}
+	}
+	
+	private static void buildLargeSheetBody(ExcelSheet excelSheet, Sheet sheet) 
+			throws IllegalArgumentException, IllegalAccessException {
+		final LargeExportDataProvider<?> datasProvider = (LargeExportDataProvider<?>) excelSheet.getDatasProvider();
+		int rowNum = 1;  // 从第二行开始插入数据
+		do {
+			Collection<?> datas = datasProvider.loadPageDatas();
+			Iterator<?> iterator = datas.iterator();
+			while (iterator.hasNext()) {
+				Object data = iterator.next();
+				buildRow(excelSheet, sheet, data, rowNum);
+				rowNum++;
+			}
+		} while(!datasProvider.isLoadLast());
+	}
+	
+	
+	private static void buildRow(ExcelSheet excelSheet, Sheet sheet, Object data, int rowNum) 
+			throws IllegalArgumentException, IllegalAccessException {
+		final SheetHead head = excelSheet.getHead();
+		final DataProvider<?> datasProvider = excelSheet.getDatasProvider();
+		final Map<String, SheetHeadColumn> headColumnMap = head.getHeadColumnMap();
+		final Field[] fields = head.getFields();
+		
+		Row row = sheet.createRow(rowNum);
+		for(int j = 0; j < fields.length; j++) {
+			Field field = fields[j];
+			String cellValue = handCellValue(field, data, datasProvider);
+			
+			// 创建单元格
+			Cell cell = row.createCell(j);
+			cell.setCellType(Cell.CELL_TYPE_STRING);
+			cell.setCellValue(cellValue);
+			
+			// 设置列宽，只要设置一次就可以了
+			SheetHeadColumn headColumn = headColumnMap.get(field.getName());
+			sheet.setColumnWidth(j, headColumn.getWidth());
+		}
+	}
+	
+	private static String handCellValue(Field field, Object data, DataProvider<?> datasProvider) 
+			throws IllegalArgumentException, IllegalAccessException {
+		// 处理单元格的值
+		String cellValue = "";
+		final String fieldName = field.getName();
+		if(datasProvider.existsValueHandler(fieldName)) {
+			ColumnValueHandler valueHandler = datasProvider.getValueHandler(fieldName);
+			cellValue = valueHandler.processExportValue(data);
+		} else {
+			ReflectionUtils.makeAccessible(field);
+			Object fieldValue = field.get(data);
+			if(fieldValue != null)
+				cellValue = fieldValue.toString();
+		}
+		return cellValue;
 	}
 	
 }

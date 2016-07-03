@@ -85,8 +85,8 @@ public class ExcelImportDocument extends ExcelDocument {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> Collection<T> getDefaultDatas(Class<T> clazz) {
-		return (Collection<T>) sheets.get(0).getDatas();
+	public <T> List<T> getDefaultDatas(Class<T> clazz) {
+		return new ArrayList<T>((Collection<T>) sheets.get(0).getDatas());
 	}	
 	
 	/**
