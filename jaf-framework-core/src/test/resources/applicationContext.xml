@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
@@ -15,7 +14,7 @@
 
 	<!-- 缓存 -->
 	<bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
-		<property name="servers" value="192.168.1.104:11211" />
+		<property name="servers" value="192.168.0.43:11212,192.168.0.242:11212" />
 		<property name="protocol" value="BINARY" />
 		<property name="transcoder">
 			<bean class="net.spy.memcached.transcoders.SerializingTranscoder">
@@ -29,5 +28,8 @@
 		<property name="useNagleAlgorithm" value="false" />
 	</bean>
 
+    <bean id="xMemcachedCache" class="com.jaf.framework.core.cache.memcached.impl.XMemcachedCacheImpl">
+        <property name="memcachedClient" ref="memcachedClient" />
+    </bean>
 
 </beans>

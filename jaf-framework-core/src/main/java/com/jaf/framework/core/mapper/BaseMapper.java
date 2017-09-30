@@ -14,8 +14,7 @@ import com.jaf.framework.core.model.BaseEntity;
  * @since 1.0
  */
 public interface BaseMapper<E extends BaseEntity<?>> {
-	
-	
+
 	void insertEntity(E e);
 	
 	

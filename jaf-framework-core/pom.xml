@@ -6,8 +6,20 @@
 	<packaging>jar</packaging>
 	<name>jaf-framework-core</name>
 	<url>http://maven.apache.org</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<parent>
+    <parent>
 		<groupId>com.jaf.framework</groupId>
 		<artifactId>jaf-framework-parent</artifactId>
 		<version>1.0.0</version>
@@ -33,6 +45,10 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
@@ -85,11 +101,13 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
+            <optional>true</optional>
 		</dependency>
 		<!-- spring-redis -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
+            <optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -97,6 +115,22 @@
 			<artifactId>ehcache</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+        <!-- mysql jdbc driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.13</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- alibabab druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.11</version>
+            <optional>true</optional>
+        </dependency>
 
 		<!-- mybatis dependency -->
 		<dependency>

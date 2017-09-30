@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jaf.framework.core.mybatis.mapper.UserMapper">
+
+	<resultMap type="User" id="userResultMap">
+		<id property="id" column="fid" jdbcType="VARCHAR" />
+		<result property="userName" column="fusername" jdbcType="VARCHAR" />
+		<result property="passWord" column="fpassword" jdbcType="VARCHAR" />
+		<result property="name" column="fname" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="findById" resultMap="userResultMap">
+        select * from t_user u where u.fid = '1';
+    </select>
+
+</mapper>

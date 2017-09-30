@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+	default-lazy-init="true">
+
+    <aop:aspectj-autoproxy />
+
+	<context:component-scan base-package="com.jaf.framework.distribution" />
+
+	<bean id="distributionManager" class="com.jaf.framework.distribution.DistributionManager">
+		<!--<property name="host" value="10.251.92.156" />
+		<property name="port" value="9999" />-->
+		<property name="host" value="192.168.0.42" />
+		<property name="port" value="8888" />
+		<property name="keyWrapper" ref="defaultKeyWrapper" />
+	</bean>
+	<bean id="defaultKeyWrapper" class="com.jaf.framework.distribution.DefaultKeyWrapper" />
+
+</beans>
