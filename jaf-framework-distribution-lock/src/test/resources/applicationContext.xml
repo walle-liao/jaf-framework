@@ -21,6 +21,6 @@
 		<property name="port" value="8888" />
 		<property name="keyWrapper" ref="defaultKeyWrapper" />
 	</bean>
-	<bean id="defaultKeyWrapper" class="com.jaf.framework.distribution.DefaultKeyWrapper" />
+	<bean id="defaultKeyWrapper" class="com.jaf.framework.distribution.key.DefaultKeyWrapper" />
 
 </beans>

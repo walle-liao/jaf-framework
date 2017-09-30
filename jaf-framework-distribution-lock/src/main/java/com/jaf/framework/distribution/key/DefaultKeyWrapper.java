@@ -1,4 +1,6 @@
-package com.jaf.framework.distribution;
+package com.jaf.framework.distribution.key;
+
+import com.jaf.framework.distribution.KeyWrapper;
 
 /**
  * 不做任何处理
