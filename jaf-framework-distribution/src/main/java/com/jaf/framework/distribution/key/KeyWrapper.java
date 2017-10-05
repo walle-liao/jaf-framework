@@ -1,4 +1,4 @@
-package com.jaf.framework.distribution;
+package com.jaf.framework.distribution.key;
 
 
 /**

@@ -3,6 +3,8 @@ package com.jaf.framework.core.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.jaf.framework.core.exception.UniquenessSelectException;
+import com.jaf.framework.util.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import com.github.pagehelper.Page;
@@ -22,8 +24,7 @@ import com.jaf.framework.core.model.BaseEntity;
 public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E> {
 	
 	private static final Logger LOG = Logger.getLogger(BaseDao.class);
-	
-	
+
 	@Override
 	public void insertEntity(E e) {
 		if (e == null) {
@@ -35,8 +36,7 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 		}
 		getMapper().insertEntity(e);
 	}
-	
-	
+
 	@Override
 	public void updateById(E e) {
 		if (e == null) {
@@ -45,10 +45,8 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 		if (e.getId() == null) {
 			LOG.error("updateById entity id can not be null");
 		}
-		
 		getMapper().updateById(e);
 	}
-	
 	
 	@Override
 	public void insertOrUpdate(E e) {
@@ -59,40 +57,33 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 		}
 	}
 
-
 	@Override
 	public <T> E findById(T id) {
 		if (id == null) {
 			LOG.error("findById id can not be null");
 		}
-		
 		return getMapper().findById(id);
 	}
-	
-	
+
 	@Override
 	public <T> void deleteById(T id) {
 		if (id == null) {
 			LOG.error("deleteById id can not be null");
 		}
-		
 		getMapper().deleteById(id);
 	}
-	
-	
+
 	@Override
 	public <T> void deleteByIds(T[] ids) {
 		for (T id : ids) {
 			deleteById(id);
 		}
 	}
-	
-	
+
 	@Override
 	public PageInfo<E> pageQuery(int pageNum, int pageSize, Map<String, Object> condition) {
 		return pageQuery(pageNum, pageSize, true, condition);
 	}
-	
 	
 	@Override
 	public PageInfo<E> pageQuery(int pageNum, int pageSize, boolean count,
@@ -102,13 +93,22 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 		Page<E> page = getMapper().pageQuery(condition);
 		return new PageInfo<E>(page);
 	}
-	
-	
+
+	@Override
+	public E selectOne(Map<String, Object> condition) throws UniquenessSelectException {
+		List<E> resultList = this.pageQuery(1, 2, false, condition).getList();
+		if(CollectionUtils.isEmpty(resultList))
+			throw new UniquenessSelectException("selectOne 找不到唯一记录");
+
+		if(resultList.size() > 1)
+			throw new UniquenessSelectException("selectOne 找到多条记录");
+		return resultList.get(0);
+	}
+
 	@Override
 	public List<E> listAll(Map<String, Object> condition) {
 		return getMapper().pageQuery(condition).getResult();
 	}
-
 
 	protected abstract BaseMapper<E> getMapper();
 	

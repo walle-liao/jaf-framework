@@ -3,6 +3,7 @@ package com.jaf.framework.core.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.jaf.framework.core.exception.UniquenessSelectException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,22 +21,19 @@ import com.jaf.framework.util.Assert;
  * @since 1.0
  */
 public abstract class BaseServiceImpl<E extends BaseEntity<?>> implements BaseService<E> {
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insertEntity(E e) {
 		getDao().insertEntity(e);
 	}
 	
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void updateById(E e) {
 		getDao().updateById(e);
 	}
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insertOrUpdate(E e) {
@@ -43,34 +41,29 @@ public abstract class BaseServiceImpl<E extends BaseEntity<?>> implements BaseSe
 		getDao().insertOrUpdate(e);
 	}
 
-
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public <T> E findById(T id) {
 		return getDao().findById(id);
 	}
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public <T> void deleteById(T id) {
 		getDao().deleteById(id);
 	}
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public <T> void deleteByIds(T[] ids) {
 		getDao().deleteByIds(ids);
 	}
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public PageInfo<E> pageQuery(int pageNum, int pageSize, Map<String, Object> condition) {
 		return getDao().pageQuery(pageNum, pageSize, condition);
 	}
-	
 	
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
@@ -78,14 +71,17 @@ public abstract class BaseServiceImpl<E extends BaseEntity<?>> implements BaseSe
 			Map<String, Object> condition) {
 		return getDao().pageQuery(pageNum, pageSize, count, condition);
 	}
-	
-	
+
+	@Override
+	public E selectOne(Map<String, Object> condition) throws UniquenessSelectException {
+		return getDao().selectOne(condition);
+	}
+
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public List<E> listAll(Map<String, Object> condition) {
 		return getDao().listAll(condition);
 	}
-
 
 	protected abstract BaseDao<E> getDao();
 	

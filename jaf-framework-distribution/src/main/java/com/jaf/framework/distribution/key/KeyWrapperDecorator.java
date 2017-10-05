@@ -1,7 +1,6 @@
 package com.jaf.framework.distribution.key;
 
-import com.jaf.framework.distribution.KeyWrapper;
-import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.Validate;
 
 /**
  * @author: liaozhicheng.cn@163.com
@@ -19,9 +18,7 @@ public abstract class KeyWrapperDecorator implements KeyWrapper {
 
     @Override
     public String wrap(String key) {
-        if(StringUtil.isNullOrEmpty(key))
-            throw new IllegalArgumentException("key can not be null or empty");
-
-        return new StringBuilder().append(decorator.wrap(wrapInner(key))).toString();
+        Validate.notEmpty(key);
+        return new StringBuilder().append(this.wrapInner(key)).append(decorator.wrap(key)).toString();
     }
 }

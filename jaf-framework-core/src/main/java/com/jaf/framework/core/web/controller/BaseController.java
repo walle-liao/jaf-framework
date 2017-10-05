@@ -41,7 +41,7 @@ public abstract class BaseController {
 	
 	protected static final String ERROR_MESSAGE = "errMsg";
 	
-	protected static final String EXPETION_MESSAGE = "exceptionMsg";
+	protected static final String EXCEPTION_MESSAGE = "exceptionMsg";
 	
 	// 如果请求设置了noPage参数（任意值），则查询方法不使用分页
 	// 对应的 getPageNum() 方法将返回 1；getPageSize() 方法将返回 Integer.MAX_VALUE
@@ -62,14 +62,14 @@ public abstract class BaseController {
 	
 	// ------------ exception handler ------------------------
 	@ExceptionHandler(ParameterException.class)
-	public String parameterExecptionHandler(HttpServletRequest request, Exception exception) {
-		request.setAttribute(EXPETION_MESSAGE, exception.getMessage());
+	public String parameterExceptionHandler(HttpServletRequest request, Exception exception) {
+		request.setAttribute(EXCEPTION_MESSAGE, exception.getMessage());
 		return "error-parameter";
 	}
 	
 	@ExceptionHandler(BusinessException.class)
 	public String businessExceptionHandler(HttpServletRequest request, Exception exception) {
-		request.setAttribute(EXPETION_MESSAGE, exception.getMessage());
+		request.setAttribute(EXCEPTION_MESSAGE, exception.getMessage());
 		return "error-business";
 	}
 	
@@ -288,5 +288,10 @@ public abstract class BaseController {
 	
 	// ------------------- file upload ------------------------
 
-	
+	protected enum PageType {
+		ADD, EDIT, DELETE, LIST;
+	}
+
 }
+
+

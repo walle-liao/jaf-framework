@@ -1,5 +1,6 @@
 package com.jaf.framework.distribution;
 
+import com.jaf.framework.distribution.key.KeyWrapper;
 import org.redisson.Config;
 import org.redisson.Redisson;
 import org.redisson.RedissonClient;

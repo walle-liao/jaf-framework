@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.jaf.framework.core.exception.UniquenessSelectException;
 import com.jaf.framework.core.model.BaseEntity;
 
 /**
@@ -85,7 +86,14 @@ public interface BaseService<E extends BaseEntity<?>> {
 	 * @return
 	 */
 	PageInfo<E> pageQuery(int pageNum, int pageSize, boolean count, Map<String, Object> condition);
-	
+
+	/**
+	 * 只查询唯一的一个实体，没找到或找到多个都将抛出异常
+	 * @param condition
+	 * @return
+	 */
+	E selectOne(Map<String, Object> condition) throws UniquenessSelectException;
+
 	/**
 	 * 不使用分页，查找所有符合条件的记录
 	 * @param condition 过滤条件
