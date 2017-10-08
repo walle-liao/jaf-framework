@@ -19,6 +19,6 @@ public abstract class KeyWrapperDecorator implements KeyWrapper {
     @Override
     public String wrap(String key) {
         Validate.notEmpty(key);
-        return new StringBuilder().append(this.wrapInner(key)).append(decorator.wrap(key)).toString();
+        return new StringBuilder().append(this.wrapInner(key)).append("_").append(decorator.wrap(key)).toString();
     }
 }

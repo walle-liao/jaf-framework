@@ -40,4 +40,7 @@ public class RedisonDistributionSequenceGenerator implements DistributionSequenc
         return incrementAndGet(this.dayKeyWrapper.wrap(key));
     }
 
+    public void setDistributionManager(DistributionManager distributionManager) {
+        this.distributionManager = distributionManager;
+    }
 }
