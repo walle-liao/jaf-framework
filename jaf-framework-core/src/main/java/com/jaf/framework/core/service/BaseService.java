@@ -43,7 +43,7 @@ public interface BaseService<E extends BaseEntity<?>> {
 	 * @param id
 	 * @return 实体对象，找不到的话返回null
 	 */
-	<T> E findById(T id);
+	<T> E selectById(T id);
 
 	/**
 	 * 更加ID删除实体

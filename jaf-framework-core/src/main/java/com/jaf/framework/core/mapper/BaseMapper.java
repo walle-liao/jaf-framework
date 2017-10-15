@@ -16,19 +16,12 @@ import com.jaf.framework.core.model.BaseEntity;
 public interface BaseMapper<E extends BaseEntity<?>> {
 
 	void insertEntity(E e);
-	
-	
+
 	void updateById(E e);
-	
-	
-	<T> E findById(T id);
-	
-	
+
 	<T> void deleteById(T id);
-	
-	
+
 	<T> void deleteByIds(T[] ids);
-	
 	
 	Page<E> pageQuery(Map<String, Object> condition);
 	

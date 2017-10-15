@@ -22,12 +22,12 @@ public class UserDaoTests {
 
     @Test
     public void testHotRefresh() throws InterruptedException {
-        User u = userDao.findById("1");
+        User u = userDao.selectById("1");
         System.out.println(u.getName());
 
         Thread.sleep(20000);
 
-        u = userDao.findById("1");
+        u = userDao.selectById("1");
         System.out.println(u.getName());
     }
 

@@ -1,5 +1,6 @@
 package com.jaf.framework.core.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,11 +59,14 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 	}
 
 	@Override
-	public <T> E findById(T id) {
+	public <T> E selectById(T id) {
 		if (id == null) {
-			LOG.error("findById id can not be null");
+			LOG.error("selectById id can not be null");
 		}
-		return getMapper().findById(id);
+
+		Map<String, Object> condition = new HashMap<>();
+		condition.put("id", id);
+		return this.selectOneInner(condition, false);
 	}
 
 	@Override
@@ -96,19 +100,26 @@ public abstract class BaseDaoImpl<E extends BaseEntity<?>> implements BaseDao<E>
 
 	@Override
 	public E selectOne(Map<String, Object> condition) throws UniquenessSelectException {
-		List<E> resultList = this.pageQuery(1, 2, false, condition).getList();
-		if(CollectionUtils.isEmpty(resultList))
-			throw new UniquenessSelectException("selectOne 找不到唯一记录");
-
-		if(resultList.size() > 1)
-			throw new UniquenessSelectException("selectOne 找到多条记录");
-		return resultList.get(0);
+		return this.selectOneInner(condition, true);
 	}
 
 	@Override
 	public List<E> listAll(Map<String, Object> condition) {
 		return getMapper().pageQuery(condition).getResult();
 	}
+
+	private E selectOneInner(Map<String, Object> condition, boolean validateEmpty) {
+		List<E> resultList = this.pageQuery(1, 2, false, condition).getList();
+
+		if(validateEmpty && CollectionUtils.isEmpty(resultList))
+			throw new UniquenessSelectException("selectOne 找不到记录");
+
+		if(resultList.size() > 1)
+			throw new UniquenessSelectException("selectOne 找到多条记录");
+
+		return CollectionUtils.isEmpty(resultList) ? null : resultList.get(0);
+	}
+
 
 	protected abstract BaseMapper<E> getMapper();
 	

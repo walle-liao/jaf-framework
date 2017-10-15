@@ -43,8 +43,8 @@ public abstract class BaseServiceImpl<E extends BaseEntity<?>> implements BaseSe
 
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-	public <T> E findById(T id) {
-		return getDao().findById(id);
+	public <T> E selectById(T id) {
+		return getDao().selectById(id);
 	}
 
 	@Override

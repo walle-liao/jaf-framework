@@ -23,7 +23,7 @@ public interface BaseDao<E extends BaseEntity<?>> {
 
 	void insertOrUpdate(E e);
 
-	<T> E findById(T id);
+	<T> E selectById(T id);
 
 	<T> void deleteById(T id);
 	
