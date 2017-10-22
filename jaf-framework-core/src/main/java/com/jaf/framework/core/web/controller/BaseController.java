@@ -289,7 +289,7 @@ public abstract class BaseController {
 	// ------------------- file upload ------------------------
 
 	protected enum PageType {
-		ADD, EDIT, DELETE, LIST;
+		ADD, EDIT, VIEW, DELETE, LIST;
 	}
 
 }
