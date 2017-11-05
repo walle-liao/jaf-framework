@@ -256,10 +256,15 @@ public class BigDecimalUtil {
     }
 
     public static double doubleValue(BigDecimal value) {
-        if (value == null) {
-            return 0;
-        }
-        return value.doubleValue();
+        return zeroIfNull(value).doubleValue();
+    }
+
+    public static int intValue(BigDecimal value) {
+        return zeroIfNull(value).intValue();
+    }
+
+    public static BigDecimal zeroIfNull(BigDecimal arg) {
+        return arg == null ? BigDecimal.ZERO : arg;
     }
 
     public static String toString(BigDecimal value) {
