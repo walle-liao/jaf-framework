@@ -61,6 +61,13 @@
             <artifactId>dozer</artifactId>
         </dependency>
 
+        <!-- 二维码 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!--servlet-->
         <dependency>
             <groupId>javax.servlet</groupId>
