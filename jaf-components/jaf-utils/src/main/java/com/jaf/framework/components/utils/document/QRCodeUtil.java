@@ -48,7 +48,7 @@ public final class QRCodeUtil {
      * @param content 存储内容
      * @return
      */
-    public static BufferedImage createQrCode(String content, String charset, int w, int h) {
+    private static BufferedImage createQrCode(String content, String charset, int w, int h) {
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, charset == null ? DEFAULT_CHARSET : charset);
         hints.put(EncodeHintType.MARGIN, 0); // 外边距
@@ -75,7 +75,7 @@ public final class QRCodeUtil {
         return image;
     }
 
-    public static byte[] imageToBytes(BufferedImage image) {
+    private static byte[] imageToBytes(BufferedImage image) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             ImageIO.write(image, "jpg", out);
             return out.toByteArray();
